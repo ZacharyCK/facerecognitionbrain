@@ -6,7 +6,9 @@ import ImageLinkForm from "./components/imagelinkform/ImageLinkForm";
 import Rank from "./components/rank/Rank";
 import ParticlesBg from "particles-bg";
 import FaceRecognition from "./components/facerecognition/FaceRecognition";
-import "tachyons"
+import "tachyons";
+import SignIn from "./components/signin/SignIn";
+import Register from "./components/register/Register"
 
 class App extends Component {
   constructor() {
@@ -15,6 +17,8 @@ class App extends Component {
       input: '',
       imageURL: '',
       boxes: [],
+      route: 'signin',
+      isSignedIn: 'false'
     }
   }
 
@@ -122,7 +126,22 @@ class App extends Component {
 
         })
         .catch(error => console.log('error', error));
-        
+
+  }
+
+  onRouteChange = (route) => {
+    if(route === 'signin') {
+      this.setState({isSignedIn: 'false'})
+    } else if (route === 'home') {
+      this.setState({isSignedIn: 'true'})
+    } else {
+      this.setState({isSignedIn: 'false'})
+    }
+    this.setState({route: route})
+  }
+
+  isSignedIn = () => {
+
   }
 
   render() {
@@ -136,16 +155,24 @@ class App extends Component {
           num={300}
           bg={true}
         />
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onSubmit} />
-        <FaceRecognition boxes={this.state.boxes} imageURL={this.state.imageURL} />
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn} />
+        { this.state.route === 'home' ? 
+          <>
+            <Logo />
+            <Rank />
+            <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onSubmit} />
+            <FaceRecognition boxes={this.state.boxes} imageURL={this.state.imageURL} /> 
+          </> : (this.state.route === 'signin' ? 
+                  <SignIn onRouteChange={this.onRouteChange} /> :
+                  <Register onRouteChange={this.onRouteChange} />
+                )
+          
+        }
       </div>
     );
   }
-   
+}  
 
-}
+
 
 export default App;
