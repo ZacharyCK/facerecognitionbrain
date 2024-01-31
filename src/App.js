@@ -18,8 +18,27 @@ class App extends Component {
       imageURL: '',
       boxes: [],
       route: 'signin',
-      isSignedIn: 'false'
+      isSignedIn: 'false',
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+      }
+    })
   }
 
   onInputChange = (event) => {
@@ -104,6 +123,22 @@ class App extends Component {
         .then(response => response.json())
         .then(result => {
 
+            if(result) {
+              fetch('http://localhost:3000/image', {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: this.state.user.id
+                })
+              })
+                .then(response => response.json())
+                .then(count => {
+                  this.setState(Object.assign(this.state.user, {entries: count}))
+                })
+            }
+ 
             const regions = result.outputs[0].data.regions;
             //console.log(result)
 
@@ -140,10 +175,6 @@ class App extends Component {
     this.setState({route: route})
   }
 
-  isSignedIn = () => {
-
-  }
-
   render() {
     console.log(this.state.box)
     return (
@@ -159,12 +190,12 @@ class App extends Component {
         { this.state.route === 'home' ? 
           <>
             <Logo />
-            <Rank />
+            <Rank userName={this.state.user.name} userEntries={this.state.user.entries}/>
             <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onSubmit} />
             <FaceRecognition boxes={this.state.boxes} imageURL={this.state.imageURL} /> 
           </> : (this.state.route === 'signin' ? 
-                  <SignIn onRouteChange={this.onRouteChange} /> :
-                  <Register onRouteChange={this.onRouteChange} />
+                  <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
+                  <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
                 )
           
         }
