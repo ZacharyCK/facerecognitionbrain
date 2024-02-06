@@ -10,23 +10,24 @@ import "tachyons";
 import SignIn from "./components/signin/SignIn";
 import Register from "./components/register/Register"
 
+const initialState = {
+  input: '',
+  imageURL: '',
+  boxes: [],
+  route: 'signin',
+  isSignedIn: 'false',
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageURL: '',
-      boxes: [],
-      route: 'signin',
-      isSignedIn: 'false',
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -137,6 +138,9 @@ class App extends Component {
                 .then(count => {
                   this.setState(Object.assign(this.state.user, {entries: count}))
                 })
+                .catch(err => {
+                  console.log("Uh Oh! There was an error!", err)
+                })
             }
  
             const regions = result.outputs[0].data.regions;
@@ -166,7 +170,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if(route === 'signin') {
-      this.setState({isSignedIn: 'false'})
+      this.setState(initialState)
     } else if (route === 'home') {
       this.setState({isSignedIn: 'true'})
     } else {
@@ -183,7 +187,7 @@ class App extends Component {
           className="particles"
           color="#ffffff"
           type="cobweb"
-          num={300}
+          num={100}
           bg={true}
         />
         <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn} />
