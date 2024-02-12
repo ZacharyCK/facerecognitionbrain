@@ -24,7 +24,7 @@ class SignIn extends React.Component{
     }
 
     onSubmitRegister = () => {
-        fetch('http://localhost:3000/register', {
+        fetch('https://mysmartbrainbackend.onrender.com/register', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'

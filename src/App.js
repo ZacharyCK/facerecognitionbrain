@@ -74,7 +74,7 @@ class App extends Component {
     // the server to calculate where the faces are in the image
     const IMAGE_URL = this.state.input;
 
-    fetch('http://localhost:3000/image', {
+    fetch('https://mysmartbrainbackend.onrender.com/image', {
       method: 'put',
       headers: {
         'Content-Type': 'application/json'
