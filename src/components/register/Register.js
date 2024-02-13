@@ -46,7 +46,7 @@ class SignIn extends React.Component{
 
     enterKeyPress = (event) => {
         if(event.key === 'Enter') {
-            this.onSubmitSignIn()
+            this.onSubmitRegister()
         }
     }
 
