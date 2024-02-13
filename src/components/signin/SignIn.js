@@ -38,6 +38,12 @@ class SignIn extends React.Component{
             })
     }
 
+    enterKeyPress = (event) => {
+        if(event.key === 'Enter') {
+            this.onSubmitSignIn()
+        }
+    }
+
     render() {
         const {onRouteChange} = this.props
         return (
@@ -56,7 +62,7 @@ class SignIn extends React.Component{
                         </div>
                         </fieldset>
                         <div className="center">
-                        <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in" onClick={this.onSubmitSignIn} />
+                        <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in" onClick={this.onSubmitSignIn} onKeyDown={this.enterKeyPress} />
                         </div>
                         <div className="lh-copy mt3">
                         <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
