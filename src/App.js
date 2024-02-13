@@ -8,7 +8,8 @@ import ParticlesBg from "particles-bg";
 import FaceRecognition from "./components/facerecognition/FaceRecognition";
 import "tachyons";
 import SignIn from "./components/signin/SignIn";
-import Register from "./components/register/Register"
+import Register from "./components/register/Register";
+import Instructions from "./components/instructions/Instructions";
 
 const initialState = {
   input: '',
@@ -139,6 +140,7 @@ class App extends Component {
             <Logo />
             <Rank userName={this.state.user.name} userEntries={this.state.user.entries}/>
             <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onSubmit} />
+            <Instructions />
             <FaceRecognition boxes={this.state.boxes} imageURL={this.state.imageURL} /> 
           </> : (this.state.route === 'signin' ? 
                   <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} /> :
